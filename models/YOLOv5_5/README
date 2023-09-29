@@ -1,0 +1,6 @@
+Date - 29/09/2023, 11:00
+Model - YOLOv5 (nano) from edge impulse, Quantized (int8)
+Input Img = (640x640)
+Epochs - 200
+RaspberryPi4 Performance - inference 685ms, peak RAM usage 4.8 MB, flash usage 1.9 MB
+Model testing - 100% with more than 80% accuracy
