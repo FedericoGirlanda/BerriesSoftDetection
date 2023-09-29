@@ -1,4 +1,4 @@
-# Robust Co-Design of Canonical Underactuated Systems for Increased Certifiable Stability
+# Soft Detection of Blueberries
 
 This repository contains the code, data and plots of the project that I am implementing for openIoT Lab (FBK).
 
