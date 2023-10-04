@@ -119,3 +119,33 @@ Function that implements a lowpass filter
 """
 def lowpass(prev, next, beta):
     return beta*prev + (1-beta)*next
+
+"""
+Function that implements a series of erosions and dilations for removing outliers boxes centers, then it returna the rectangle that
+enclose all the remaining shapes.
+"""
+def findBunch(centers):
+    mask=np.zeros((640,640,1),np.uint8)
+    for i in range(len(centers)):
+        cv2.circle(mask, (int(centers[i][0]), int(centers[i][1])), radius=15, color=(255), thickness=-1)
+
+    kernel_e = np.ones((3, 3), np.uint8)
+    kernel_d = np.ones((5, 5), np.uint8)
+    mask = cv2.dilate(mask, kernel_d, iterations=20)
+    mask = cv2.erode(mask, kernel_e, iterations=55)
+    mask = cv2.dilate(mask, kernel_d, iterations=20)
+
+    cnts, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )
+
+    try:
+        cnts = np.concatenate(cnts)
+        x, y, w, h = cv2.boundingRect(cnts)
+    except:
+        x, y, w, h = 320,320,0,0
+
+    # cv2.rectangle(mask, (x, y), (x + w - 1, y + h - 1), 255, 2)
+    # cv2.imshow("out", mask)
+    # cv2.waitKey(0)
+    # assert False
+
+    return x, y, h, w
