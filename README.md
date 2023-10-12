@@ -23,6 +23,7 @@ The use of a virtual environment for the installation is suggested as a common g
 
 <div align="center">
 <img width="300" src="results/imageDetection.png">
+<img width="300" src="results/bunchDetection.png">
 </div>
 
 ### Aknowledgements

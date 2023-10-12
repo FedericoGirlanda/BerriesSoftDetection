@@ -18,7 +18,7 @@ dim = (640,640) # input image dimension
 
 # Create tests result file if not present
 results_csv = "results/detectionBoxes.csv"
-header = ["image path", "boxes" ]
+header = ["image", "boxes0","boxes1","boxes2","boxes3","boxes4" ]
 f = open(results_csv, 'w')
 writer = csv.writer(f)
 #if not os.path.exists(results_csv):

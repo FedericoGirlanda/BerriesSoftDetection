@@ -1,4 +1,4 @@
-image path,boxes
+image,boxes0,boxes1,boxes2,boxes3,boxes4
 IMG_1027.jpg.4b38c52b.ingestion-55b478f466-cp67z.jpg,0.0,65.0,575.0,473.0,1.0
 ,58.0,264.0,139.0,320.0,0.3554877042770386
 ,4.0,95.0,57.0,156.0,0.36564359068870544
