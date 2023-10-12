@@ -12,6 +12,11 @@ Results can be obtained by running
     python src/python/softDetection.py
 
 The ML models that are contained in [models](models) have been created and tested in [Edge Impulse](https://studio.edgeimpulse.com).
+The detection performances has been calculated by running
+
+    python src/python/performances.py
+
+a boolean variable named "bunchDetection" is used here to evaluate the performances of the desired task.
 
 ### Installation
 The use of a virtual environment for the installation is suggested as a common good programming choice. For example, the use of *pipenv* requires the following commands
@@ -25,6 +30,8 @@ The use of a virtual environment for the installation is suggested as a common g
 <img width="300" src="results/imageDetection.png">
 <img width="300" src="results/bunchDetection.png">
 </div>
+
+The detection accuracy calculated for the berry detection is of the 19% while the one regarding the bunch detection reaches the 56%, considering an Iou > 0.5 as a threshold for the true detection.
 
 ### Aknowledgements
 The data contained in the "dataset" folder have been taken from the [Deepblueberry](https://ieeexplore.ieee.org/abstract/document/8787818) dataset for research purposes.

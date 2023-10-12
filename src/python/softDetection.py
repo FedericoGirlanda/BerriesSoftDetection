@@ -71,7 +71,7 @@ for img_path in os.listdir(test_dir):
 
 		# Write results in the csv file
 		save_img_path = np.append(img_path,[""]*len(boxes))
-		save_boxes = np.vstack((np.array([xb, yb, hb, wb,1]), boxes))
+		save_boxes = np.vstack((np.array([xb, yb, xb + wb - 1, yb + hb - 1,1]), boxes))
 		writer.writerows(np.hstack((save_img_path[:,np.newaxis], save_boxes)))
 			
 

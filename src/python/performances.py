@@ -5,7 +5,7 @@ import pandas as pd
 from utils import plot_one_box, box_iou
 
 IoU_thresh = 0.5
-bunchDetection = True
+bunchDetection = False
 
 # Create tests result file if not present
 results_csv = "results/detectionBoxes.csv"
@@ -25,6 +25,8 @@ for i in range(len(data_test)):
         pass
 
 dim = (640,640)
+TP_bunch = 0
+totAcc_berries = 0
 for j in range(len(idx_test)):
     image = cv2.imread("dataset/EIdataset/testing/"+data_test.image[idx_test[j]])
     image = cv2.resize(image, dim, interpolation = cv2.INTER_NEAREST)
@@ -73,6 +75,7 @@ for j in range(len(idx_test)):
                     TP += 1
         accuracy = TP/(TP+FP)
         print(f"Image {j} has an accuracy of {accuracy}")
+        totAcc_berries += accuracy
 
     else:
         # Plot the boxes
@@ -92,6 +95,14 @@ for j in range(len(idx_test)):
         # Bunch detection accuracy measure
         iou = box_iou(box_t,box_r)
         print(f"Image {j} has an IoU of {iou}")
+        if iou > IoU_thresh:
+            TP_bunch += 1
     
     cv2.imshow("Output", image)
     cv2.waitKey(0)
+
+print("")
+if TP_bunch > 0:
+    print(f"The accuracy of the bunch detection is {TP_bunch/len(idx_test)}")
+if totAcc_berries > 0:
+    print(f"The average accuracy of the berry detection is {totAcc_berries/len(idx_test)}")
