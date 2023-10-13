@@ -4,7 +4,7 @@ import pandas as pd
 
 from utils import plot_one_box, box_iou
 
-IoU_thresh = 0.5
+IoU_thresh = 0.7
 bunchDetection = False
 
 # Create tests result file if not present
@@ -55,25 +55,25 @@ for j in range(len(idx_test)):
             plot_one_box(box, image, (255,0,0), "berry", 1)
 
         # Berries detection accuracy measure
-        TP = 0
-        FP = 0
         accuracy = 0
-        for bt in range(1,int(n_boxesTest)):
-            for br in range(1,int(n_boxesRes)):
+        TP = 0
+        atLeastOne = False
+        for br in range(1,int(n_boxesRes)):
+            box_r = np.array([data_results.boxes0[idx_results[j]+br],
+                            data_results.boxes1[idx_results[j]+br],
+                            data_results.boxes2[idx_results[j]+br],
+                            data_results.boxes3[idx_results[j]+br]])
+            for bt in range(1,int(n_boxesTest)):
                 box_t = np.array([data_test.boxes0[idx_test[j]+bt]*dim[0]-(data_test.boxes2[idx_test[j]+bt]*dim[0]/2),
-                                  data_test.boxes1[idx_test[j]+bt]*dim[1]-(data_test.boxes3[idx_test[j]+bt]*dim[1]/2),
-                                  data_test.boxes0[idx_test[j]+bt]*dim[0]+data_test.boxes2[idx_test[j]+bt]*dim[0]/2,
-                                  data_test.boxes1[idx_test[j]+bt]*dim[1]+data_test.boxes3[idx_test[j]+bt]*dim[1]/2])
-                box_r = np.array([data_results.boxes0[idx_results[j]+br],
-                                data_results.boxes1[idx_results[j]+br],
-                                data_results.boxes2[idx_results[j]+br],
-                                data_results.boxes3[idx_results[j]+br]])
+                              data_test.boxes1[idx_test[j]+bt]*dim[1]-(data_test.boxes3[idx_test[j]+bt]*dim[1]/2),
+                              data_test.boxes0[idx_test[j]+bt]*dim[0]+data_test.boxes2[idx_test[j]+bt]*dim[0]/2,
+                              data_test.boxes1[idx_test[j]+bt]*dim[1]+data_test.boxes3[idx_test[j]+bt]*dim[1]/2])
                 iou = box_iou(box_t,box_r)
-                if iou < IoU_thresh:
-                    FP += 1
-                else:
-                    TP += 1
-        accuracy = TP/(TP+FP)
+                if iou >= IoU_thresh:
+                    atLeastOne = True
+            if atLeastOne:
+                TP += 1    
+        accuracy = TP/n_boxesRes
         print(f"Image {j} has an accuracy of {accuracy}")
         totAcc_berries += accuracy
 
@@ -95,7 +95,7 @@ for j in range(len(idx_test)):
         # Bunch detection accuracy measure
         iou = box_iou(box_t,box_r)
         print(f"Image {j} has an IoU of {iou}")
-        if iou > IoU_thresh:
+        if iou >= IoU_thresh:
             TP_bunch += 1
     
     cv2.imshow("Output", image)
