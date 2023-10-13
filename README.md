@@ -31,7 +31,7 @@ The use of a virtual environment for the installation is suggested as a common g
 <img width="300" src="results/bunchDetection.png">
 </div>
 
-The detection accuracy calculated for the berry detection is of the 87.4% while the one regarding the bunch detection reaches the 56.3%, considering an IoU > 0.5 as a threshold for the true detection. Increasing the IoU threshold to 0.7 the precisions become 85.9% and 37.5% for berries and bunches respectively.
+The detection accuracy calculated for the berry detection is of the 83.9% while the one regarding the bunch detection reaches the 50%, considering an IoU > 0.5 as a threshold for the true detection. Increasing the IoU threshold to 0.7 the precisions become 81% and 37.5% for berries and bunches respectively.
 
 ### Aknowledgements
 The data contained in the "dataset" folder have been taken from the [Deepblueberry](https://ieeexplore.ieee.org/abstract/document/8787818) dataset for research purposes.

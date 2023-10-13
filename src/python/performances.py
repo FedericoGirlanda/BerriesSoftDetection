@@ -4,7 +4,7 @@ import pandas as pd
 
 from utils import plot_one_box, box_iou
 
-IoU_thresh = 0.7
+IoU_thresh = 0.5
 bunchDetection = False
 
 # Create tests result file if not present

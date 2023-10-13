@@ -27,11 +27,11 @@ writer.writerow(header)
 
 # Testing all the test image
 test_dir = "dataset/EIdataset/testing/"
-imgToShow_path = "IMG_1011.jpg.4b38c87m.ingestion-55b478f466-z2d8c.jpg" #IMG_1071.jpg.4b38bvv8.ingestion-55b478f466-cp67z.jpg"
+imgToShow_path = "IMG_1071.jpg.4b38bvv8.ingestion-55b478f466-cp67z.jpg"
 image = cv2.imread(test_dir+imgToShow_path)
 image = cv2.resize(image, dim, interpolation = cv2.INTER_NEAREST)
 for img_path in os.listdir(test_dir):
-	if Path(img_path).suffix == '.jpg':
+	if Path(img_path).suffix == '.jpg': 
 		# Load the image
 		img = load_img(test_dir+img_path, target_size=dim)
 
@@ -52,7 +52,7 @@ for img_path in os.listdir(test_dir):
 		boxes = getBoxes(prediction, dim)
 
 		# NMS
-		boxes = nonMaxSuppress(boxes,0.8)
+		boxes = nonMaxSuppress(boxes,0.7)
 		#print(f"Coarse number of berries: ", len(boxes))
 
 		# Get centers of boxes

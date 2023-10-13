@@ -75,7 +75,7 @@ Function that returns the IoU between two boxes
 def box_iou(box_a, box_b):
 
     def box_area(box):
-        return (box[2] - box[0]) * (box[3] - box[1])
+        return (box[2] - box[0] + 1) * (box[3] - box[1] + 1)
 
     area_a = box_area(box_a)
     area_b = box_area(box_b)
@@ -84,10 +84,9 @@ def box_iou(box_a, box_b):
     y_left = np.maximum(box_a[1], box_b[1])
     x_right = np.minimum(box_a[2], box_b[2])
     y_right = np.minimum(box_a[3], box_b[3])
-    area_inter = np.clip(box_area([x_left,y_left,x_right,y_right]), a_min=0, a_max = np.minimum(area_a,area_b))
-    area_union = np.clip(area_a + area_b - area_inter, a_min=np.maximum(area_a,area_b), a_max = (area_a+area_b))
-    if box_a[2] < box_b[0]:
-        area_inter = 0
+    area_inter = max(0, x_right - x_left + 1) * max(0, y_right - y_left + 1) 
+    area_union = float(area_a + area_b - area_inter) 
+
     return area_inter / area_union
 
 """
@@ -127,13 +126,12 @@ enclose all the remaining shapes.
 def findBunch(centers):
     mask=np.zeros((640,640,1),np.uint8)
     for i in range(len(centers)):
-        cv2.circle(mask, (int(centers[i][0]), int(centers[i][1])), radius=15, color=(255), thickness=-1)
+        cv2.circle(mask, (int(centers[i][0]), int(centers[i][1])), radius=25, color=(255), thickness=-1)
 
-    kernel_e = np.ones((3, 3), np.uint8)
-    kernel_d = np.ones((5, 5), np.uint8)
-    mask = cv2.dilate(mask, kernel_d, iterations=20)
-    mask = cv2.erode(mask, kernel_e, iterations=55)
-    mask = cv2.dilate(mask, kernel_d, iterations=20)
+    kernel = np.ones((3, 3), np.uint8)
+    mask = cv2.dilate(mask, kernel, iterations=5)
+    mask = cv2.erode(mask, kernel, iterations=20)
+    mask = cv2.dilate(mask, kernel, iterations=20)
 
     cnts, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE )
 
@@ -141,7 +139,7 @@ def findBunch(centers):
         cnts = np.concatenate(cnts)
         x, y, w, h = cv2.boundingRect(cnts)
     except:
-        x, y, w, h = 320,320,0,0
+        x, y, w, h = 0,0,640,640
 
     # cv2.rectangle(mask, (x, y), (x + w - 1, y + h - 1), 255, 2)
     # cv2.imshow("out", mask)
